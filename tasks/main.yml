@@ -63,6 +63,20 @@
   with_items: "{{users}}"
   when: "(users_create_homedirs and item.profile is defined) and item.username in users_to_create"
 
+- name: Change ssh policy to ssh keys only
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication yes'
+    replace: 'PasswordAuthentication no'
+  register: sshd_config
+  when: ssh_nopass
+
+- name: Restart ssh service
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed 
+
 - name: Deleted user removal
   user:
     name: "{{item.username}}"
