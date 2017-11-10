@@ -49,7 +49,7 @@
     - "{{users}}"
     - ssh_key
     - skip_missing: yes
-  when: "item.0.username in users_to_create"
+  when: "item.0.username in users_to_create or (users_to_create.0 is defined and users_to_create.0 == 'all')"
   tags: ['users','configuration']
 
 - name: Setup user profiles
@@ -61,7 +61,7 @@
     mode: 0644
     create: true
   with_items: "{{users}}"
-  when: "(users_create_homedirs and item.profile is defined) and item.username in users_to_create"
+  when: "(users_create_homedirs and item.profile is defined) and (item.username in users_to_create or (users_to_create.0 is defined and users_to_create.0 == 'all'))"
 
 - name: Change ssh policy to ssh keys only
   replace:
