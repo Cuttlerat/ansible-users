@@ -63,6 +63,14 @@
   with_items: "{{users}}"
   when: "(users_create_homedirs and item.profile is defined) and (item.username in users_to_create or (users_to_create.0 is defined and users_to_create.0 == 'all'))"
 
+- name: Add user to docker group
+  user:
+    name: "{{ item.username }}"
+    groups: docker
+  ignore_errors: yes
+  when: "(item.add_to_docker_group is defined and item.add_to_docker_group == True) and (item.username in users_to_create or (users_to_create.0 is defined and users_to_create.0 == 'all'))"
+  with_items: "{{ users }}"
+
 - name: Change ssh policy to ssh keys only
   replace:
     path: /etc/ssh/sshd_config
