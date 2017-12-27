@@ -1,7 +1,7 @@
 ---
 - name: Including users file
   include_vars:
-    file: files/users.yml
+    file: files/vault_users.yml
 
 - name: Creating groups
   group: name="{{item.name}}" gid="{{item.gid | default(omit)}}"
