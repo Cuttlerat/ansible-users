@@ -1,0 +1,6 @@
+---
+users_create_per_user_group: false
+user_group: users
+users_default_shell: /bin/bash
+users_create_homedirs: true
+users_to_create: [all]
