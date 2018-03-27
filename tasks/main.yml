@@ -72,10 +72,11 @@
   with_items: "{{ users }}"
 
 - name: Change ssh policy to ssh keys only
-  replace:
+  lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: '^PasswordAuthentication yes'
-    replace: 'PasswordAuthentication no'
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+    insertafter: EOF
   register: sshd_config
   when: ssh_nopass
 
